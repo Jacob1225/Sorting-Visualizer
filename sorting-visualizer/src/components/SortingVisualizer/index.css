@@ -1,0 +1,12 @@
+.array-container {
+    width: 80%;
+    margin: auto;
+    
+}
+
+.array-bar {
+    background-color: turquoise;
+    display: inline-block;
+    width: 2px;
+    margin: 0px 1px;
+}
