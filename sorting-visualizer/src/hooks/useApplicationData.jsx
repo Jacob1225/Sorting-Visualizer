@@ -5,16 +5,23 @@ export default function useApplicationData(){
 
     //This custom hook is the beiung used to manage the overall data of the app.
     const [state, setState] = useState({
-        array: []
+        array: [100, 50, 12, 40, 10],
+        sizeSlider: 5,
+        speedSlider: 3,
+        clicked: false
     });
 
     //function that generates a new array with randomized numbers
     function resetArray(){
         let array = [];
-        for (let i = 0; i <= 290; i++){
+        for (let i = 0; i <= state.sizeSlider; i++){
             array.push(Math.floor(Math.random() * (800 - 5 + 1) + 5));
         }
-        setState({ array });
+        setState(prev => ({
+            ...prev,
+            array: array,
+            clicked: false
+        }));
     };
 
     //Once the comonpent loads 
@@ -134,31 +141,52 @@ function merge(arr, start, middle, end, helperArr, colorChange){
     //Function that sorts an array in ascending order by bubbling elements to their respective positions
     function bubbleSort(arr) {
         
+        //Color changes array to keep track of the values being compared
+        let colorChanges = [];
+
         //Loop through all of the elements of the array
         for (let i = 0; i < arr.length; i++) { 
             let swapped = false;
   
             for (let j = 0; j < arr.length - i - 1; j++) {
-        
+                
+                //Push the values being compared to the colorChanges array to change their color
+                colorChanges.push(["red", j, j + 1]);
+                colorChanges.push(["turquoise", j, j + 1]);
+
                 //If the current element is greater than it's following element then swapped them
                 if (arr[j] > arr[j + 1]) {
+
+                    colorChanges.push(["swap", j, arr[j + 1]]);
+                    colorChanges.push(["swap", j + 1, arr[j]]);
                     let temp = arr[j];
                     arr[j] = arr[j + 1];
                     arr[j + 1] = temp;
   
                     //Set the boolean tracker to true
                     swapped = true;
+                
+                } else {
+                    colorChanges.push(["swap", j, arr[j]]);
+                    colorChanges.push(["swap", j + 1, arr[j + 1]]);
                 }
             }
+            //Change the color of the last sorted element
+            colorChanges.push([arr.length - 1 - i]);
+
             //If no elements were swap then break out of the outer loop and the array is sorted
             if (!swapped) {
+                
+                //Need to complete the coloring of sorted elements in the event that we break out of the outer loop
+                const cycles = arr.length - 1 - i;
+                for (let k = 0; k < cycles; k++){
+                    i++;
+                    colorChanges.push([arr.length - 1 - i]);
+                }
                 break;
             }
         }
-  
-        setState({
-            array: arr
-        });
+        return colorChanges;
   };
 
     //Function that sorts an array in ascending order by finding the min value and placing it at the start of the array
@@ -203,6 +231,24 @@ function merge(arr, start, middle, end, helperArr, colorChange){
         });
     };
 
+    //Function that sets the state for the value of the slider 
+    function sizeChange(e){
+        let size = e.target.value;
+        setState(prev => ({
+            ...prev,
+            sizeSlider: size
+        }))
+    };
+
+     //Function that sets the state for the value of the slider 
+     function speedChange(e){
+        let speed = e.target.value;
+        setState(prev => ({
+            ...prev,
+            speedSlider: speed
+        }))
+    };
+
     return {
         state,
         resetArray,
@@ -210,7 +256,9 @@ function merge(arr, start, middle, end, helperArr, colorChange){
         heapSort,
         bubbleSort,
         selectionSort,
-        insertionSort
+        insertionSort,
+        speedChange,
+        sizeChange,
     }
 };
 

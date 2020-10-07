@@ -14,7 +14,9 @@ export default function App() {
     heapSort,
     bubbleSort,
     selectionSort,
-    insertionSort
+    insertionSort,
+    speedChange,
+    sizeChange,
   } = useApplicationData();
 
   return (
@@ -26,7 +28,9 @@ export default function App() {
         heapSort={heapSort}
         bubbleSort={bubbleSort}
         selectionSort={selectionSort}
-        insertionSort={insertionSort}>
+        insertionSort={insertionSort}
+        sizeChange={sizeChange}
+        speedChange={speedChange}>
       </Navigation>
       <SortingVisualizer 
         state={state}
