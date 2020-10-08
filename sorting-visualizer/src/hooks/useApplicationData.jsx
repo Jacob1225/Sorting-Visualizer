@@ -90,52 +90,60 @@ function merge(arr, start, middle, end, helperArr, colorChange){
     }
 };
     //function that swaps two values
-    function swap(arr, i, j) {
+    function swap(arr, i, j, colorChange) {
         let temp = arr[i];
         arr[i] = arr[j];
+
+        //push the swap animation to the colorChange array
+        colorChange.push(["swap", i, arr[j]]);
+
         arr[j] = temp;
+        colorChange.push(["swap", j, temp]);
+       
     };
 
     //function that creates a max heap to sort an array in ascending order
-    function heapRoot(arr, length, index) {
+    function heapRoot(arr, length, index, colorChange) {
         let leftChild = 2 * index + 1;
         let rightChild = 2 * index + 2;
         let parent = index;
     
         if (leftChild < length && arr[leftChild] > arr[parent]) {
+            colorChange.push(["red", parent, leftChild]);
+            colorChange.push(["turquoise", parent, leftChild]);
             parent = leftChild;
         }
     
         if (rightChild < length && arr[rightChild] > arr[parent]) {
+            colorChange.push(["red", parent, rightChild]);
+            colorChange.push(["turquoise", parent, rightChild]);
             parent = rightChild;
         }
     
         if (parent != index) {
-            swap(arr, parent, index);
-            heapRoot(arr, length, parent);
+            swap(arr, parent, index, colorChange);
+            heapRoot(arr, length, parent, colorChange);
         }
     };
 
     //Function that uses the max heap data structure to sort the array
     function heapSort(arr) {
+        let colorChange = [];
         let n = arr.length;
         let i = Math.floor(n / 2 - 1);
         let k = n - 1;
     
         while (i >= 0) {
-            heapRoot(arr, n, i);
+            heapRoot(arr, n, i, colorChange);
             i--;
         }
     
         while (k >= 0) {
-            swap(arr, 0, k);
-            heapRoot(arr, k, 0);
+            swap(arr, 0, k, colorChange);
+            heapRoot(arr, k, 0, colorChange);
             k--;
         }
-    
-        setState({
-            array: arr
-        });
+        return colorChange;
     };
 
     //Function that sorts an array in ascending order by bubbling elements to their respective positions
@@ -191,26 +199,35 @@ function merge(arr, start, middle, end, helperArr, colorChange){
 
     //Function that sorts an array in ascending order by finding the min value and placing it at the start of the array
     function selectionSort(arr) {
-  
+        
+        let colorChange = [];
         //Loop through all of the elements in the array
         for (let i = 0; i < arr.length; i++){
             let minIndex = i;
   
             for (let j = i + 1; j < arr.length; j++){
+
+                //Add the values being compared to the colorchange array
+                colorChange.push(["red", minIndex, j]);
+                colorChange.push(["turquoise", minIndex, j]);
+
                 if (arr[minIndex] > arr[j]){
                     minIndex = j;
                 }
             }
+            //Add the swap animations to the colorchange array
+            colorChange.push(["swap", i, arr[minIndex]]);
+            colorChange.push(["swap", minIndex, arr[i]]);
             [arr[minIndex], arr[i]] = [arr[i], arr[minIndex]];
         }
-        setState({
-            array: arr
-        });
+        return colorChange;
     };
 
     //Function that sorts an array in ascending order
     function insertionSort(arr) {
         const n = arr.length;
+
+        let colorChange = [];
   
         //Loop through all of the elements of the array starting at index 1
         for (let i = 1; i < n; i++) {
@@ -220,15 +237,20 @@ function merge(arr, start, middle, end, helperArr, colorChange){
   
             //removes the el and inserts the preceeding element in its place
             while (j >= 0 && el < arr[j]) {
+
+                //Add the comparison animations to the color change array
+                colorChange.push(["red", i, j]);
+                colorChange.push(["turquoise", i, j]);
+
+                //Add the swap animations to the color change array
+                colorChange.push(["swap", j + 1, arr[j]]);
                 arr[j + 1] = arr[j];
                 j = j - 1;
             }
-  
+            colorChange.push(["swap", j + 1, el]);
             arr[j + 1] = el;
         }
-        setState({
-            array: arr
-        });
+        return colorChange;
     };
 
     //Function that sets the state for the value of the slider 

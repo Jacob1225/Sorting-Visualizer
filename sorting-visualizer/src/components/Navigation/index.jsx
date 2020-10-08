@@ -71,7 +71,7 @@ export default function Navigation({
             //Get all the array bars in the DOM
             const bars = document.getElementsByClassName("array-bar");
 
-            //If first two arrays of a triplet, means a color change will happen
+            //If first two arrays, means a color change will happen
             const colorChange = colorChanges[i][0] !== "swap";
 
             //If colorChange is true then we need to change the color of the array bars
@@ -106,7 +106,115 @@ export default function Navigation({
                 }, i * state.speedSlider);
             }
         }
-    }
+    };
+
+    //Function that displays the heap animations for heap sort
+    function heap() {
+        const colorChanges = heapSort(state.array);
+
+        //Loop through the colorChanges array
+        for (let i = 0; i < colorChanges.length; i++){
+
+             //Get all the array bars in the DOM
+            let bars = document.getElementsByClassName("array-bar");
+
+            //If first two arrays, means a color change will happen
+            const colorChange = colorChanges[i][0] !== "swap";
+
+            //If colorChange is true then we need to change the color of the array bars
+            if (colorChange) {
+                const [color, barOne, barTwo] = colorChanges[i];
+                const barOneStyle = bars[barOne].style;
+                const barTwoStyle = bars[barTwo].style;
+
+                setTimeout(() => {
+                    barOneStyle.backgroundColor = color;
+                    barTwoStyle.backgroundColor = color;
+                }, i * state.speedSlider);
+            
+            //Else is no color change then we are swapping the values or overwritting the same values in the array
+            } else {
+                setTimeout(() => {
+                    const [color, barOne, barHeight] = colorChanges[i];
+                    const barOneStyle = bars[barOne].style;
+                    barOneStyle.height = `${barHeight}px`;
+                }, i * state.speedSlider);
+            }
+        }
+    };
+
+    //Function that displays the selection animations in selection sort
+    function selection(){
+        
+        const colorChanges = selectionSort(state.array);
+
+        //Loop through the colorChanges array
+        for (let i = 0; i < colorChanges.length; i++){
+
+            //Get all the array bars in the DOM
+           let bars = document.getElementsByClassName("array-bar");
+
+           //If first two arrays, means a color change will happen
+           const colorChange = colorChanges[i][0] !== "swap";
+
+           //If colorChange is true then we need to change the color of the array bars
+           if (colorChange) {
+               const [color, barOne, barTwo] = colorChanges[i];
+               const barOneStyle = bars[barOne].style;
+               const barTwoStyle = bars[barTwo].style;
+
+               setTimeout(() => {
+                   barOneStyle.backgroundColor = color;
+                   barTwoStyle.backgroundColor = color;
+               }, i * state.speedSlider);
+           
+           //Else is no color change then we are swapping the values or overwritting the same values in the array
+           } else {
+               setTimeout(() => {
+                   const [color, barOne, barHeight] = colorChanges[i];
+                   const barOneStyle = bars[barOne].style;
+                   barOneStyle.height = `${barHeight}px`;
+               }, i * state.speedSlider);
+           }
+       }
+    };
+
+    //Function that displays the insertion animations in insertion sort
+    function insertion(){
+        
+        const colorChanges = insertionSort(state.array);
+
+        //Loop through the colorChanges array
+        for (let i = 0; i < colorChanges.length; i++){
+
+            //Get all the array bars in the DOM
+           let bars = document.getElementsByClassName("array-bar");
+
+           //If first two arrays, means a color change will happen
+           const colorChange = colorChanges[i][0] !== "swap";
+
+           //If colorChange is true then we need to change the color of the array bars
+           if (colorChange) {
+               const [color, barOne, barTwo] = colorChanges[i];
+               const barOneStyle = bars[barOne].style;
+               const barTwoStyle = bars[barTwo].style;
+
+               setTimeout(() => {
+                   barOneStyle.backgroundColor = color;
+                   barTwoStyle.backgroundColor = color;
+               }, i * state.speedSlider);
+           
+           //Else is no color change then we are swapping the values or overwritting the same values in the array
+           } else {
+               setTimeout(() => {
+                   const [color, barOne, barHeight] = colorChanges[i];
+                   const barOneStyle = bars[barOne].style;
+                   barOneStyle.height = `${barHeight}px`;
+               }, i * state.speedSlider);
+           }
+       }
+    };
+
     return (
         <nav>
             <div className="nav-title">Sorting Visualizer</div>
@@ -126,9 +234,9 @@ export default function Navigation({
             <div className="nav-sortStyle">
                 <button onClick={()=> merge()}>Merge Sort</button>
                 <button onClick={()=> bubble()}>Bubble Sort</button>
-                <button onClick={()=> heapSort(state.array)}>Heap Sort</button>
-                <button onClick={()=> selectionSort(state.array)}>Selection Sort</button>
-                <button onClick={()=> insertionSort(state.array)}>Insertion Sort</button>
+                <button onClick={()=> heap()}>Heap Sort</button>
+                <button onClick={()=> selection()}>Selection Sort</button>
+                <button onClick={()=> insertion()}>Insertion Sort</button>
             </div>
         </nav>
     )
