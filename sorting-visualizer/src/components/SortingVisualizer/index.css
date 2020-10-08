@@ -1,12 +1,17 @@
 .array-container {
     width: 80%;
     margin: 30px auto;
-    
+    display: flex;
+    justify-content: center;  
+}
+
+.array-bar-container {
+    margin: auto;
 }
 
 .array-bar {
     background-color: turquoise;
     display: inline-block;
-    width: 2px;
+    width: 20px;
     margin: 0px 1px;
 }

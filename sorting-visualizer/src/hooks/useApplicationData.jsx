@@ -5,17 +5,17 @@ export default function useApplicationData(){
 
     //This custom hook is the beiung used to manage the overall data of the app.
     const [state, setState] = useState({
-        array: [100, 50, 12, 40, 10],
-        sizeSlider: 5,
-        speedSlider: 3,
+        array: [],
+        sizeSlider: 50,
+        speedSlider: 1,
         clicked: false
     });
 
     //function that generates a new array with randomized numbers
     function resetArray(){
         let array = [];
-        for (let i = 0; i <= state.sizeSlider; i++){
-            array.push(Math.floor(Math.random() * (800 - 5 + 1) + 5));
+        for (let i = 0; i < state.sizeSlider; i++){
+            array.push(Math.floor(Math.random() * (700 - 5 + 1) + 5));
         }
         setState(prev => ({
             ...prev,

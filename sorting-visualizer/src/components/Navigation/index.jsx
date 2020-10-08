@@ -16,10 +16,11 @@ export default function Navigation({
     //Function the generates a new array and turns all bars back to turquoise
     function reset(){
         resetArray();
-        const bars = document.getElementsByClassName("array-bar");
+        const bars = document.getElementsByClassName("array-bar"); 
 
         for (let i = 0; i < bars.length; i++){
-            bars[i].style = "turquoise";
+            const barStyle = bars[i].style;
+            barStyle.backgroundColor = "turquoise";
         }
     };
 
@@ -63,7 +64,6 @@ export default function Navigation({
     //Function that displays the bubbling animations for bubble sort
     function bubble(){
         let colorChanges = bubbleSort(state.array);
-        console.log(colorChanges);
 
          //Loop through the colorChange arrays
          for (let i = 0; i < colorChanges.length; i++){
@@ -113,11 +113,11 @@ export default function Navigation({
             <div className ="nav-sliders">
                 <div className="size">
                     <h4>Array Size</h4>
-                    <input type="range" min="5" max="290" value={state.sizeSlider} className="size-slider" onChange={(e) => sizeChange(e)}/>
+                    <input type="range" min="50" max="100" value={state.sizeSlider} step="5" className="size-slider" onChange={(e) => sizeChange(e)}/>
                 </div>
                 <div className="speed">
                     <h4>Sorting Speed</h4>
-                    <input type="range" min="3" max="50" value={state.speedSlider} className="speed-slider" onChange={(e) => speedChange(e)}/>
+                    <input type="range" min="1" max="51" value={state.speedSlider} step ="5" className="speed-slider" onChange={(e) => speedChange(e)}/>
                 </div>
             </div>
             <div className="nav-reset">
