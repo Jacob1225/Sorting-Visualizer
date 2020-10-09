@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import './index.css';
 
 export default function Navigation({
@@ -13,9 +14,14 @@ export default function Navigation({
     sizeChange,
 }){
 
+    //Local state for disabling and enabling the buttons
+    const [disable, setDisable] = useState(false);
+
     //Function the generates a new array and turns all bars back to turquoise
     function reset(){
+        //Generate a new randomized array
         resetArray();
+
         const bars = document.getElementsByClassName("array-bar"); 
 
         for (let i = 0; i < bars.length; i++){
@@ -25,9 +31,11 @@ export default function Navigation({
     };
 
     //Function that creates the swapping and comparison animations for merge sort
-    function merge(){
+    function merge() {
+        //disable buttons
+        setDisable(true);
         let colorChanges = mergeSort(state.array);
-
+       
         //Loop through the colorChange arrays
         for (let i = 0; i < colorChanges.length; i++){
 
@@ -36,7 +44,6 @@ export default function Navigation({
 
             //If first two arrays of a triplet, means a color change will happen
             const colorChange = i % 3 !== 2;
-
             //If colorChange is true then we need to change the color of the array bars
             if (colorChange){
                 const [barOne, barTwo] = colorChanges[i];
@@ -59,10 +66,15 @@ export default function Navigation({
                 }, i * state.speedSlider);
             }
         }
+        setTimeout(() => {
+            setDisable(false);
+        }, colorChanges.length * state.speedSlider);
     };
 
     //Function that displays the bubbling animations for bubble sort
     function bubble(){
+        //disable buttons
+        setDisable(true);
         let colorChanges = bubbleSort(state.array);
 
          //Loop through the colorChange arrays
@@ -106,10 +118,15 @@ export default function Navigation({
                 }, i * state.speedSlider);
             }
         }
+        setTimeout(() => {
+            setDisable(false);
+        }, colorChanges.length * state.speedSlider);
     };
 
     //Function that displays the heap animations for heap sort
     function heap() {
+        //Disable Buttons
+        setDisable(true);
         const colorChanges = heapSort(state.array);
 
         //Loop through the colorChanges array
@@ -141,11 +158,15 @@ export default function Navigation({
                 }, i * state.speedSlider);
             }
         }
+        setTimeout(() => {
+            setDisable(false);
+        }, colorChanges.length * state.speedSlider);
     };
 
     //Function that displays the selection animations in selection sort
     function selection(){
-        
+        //Disable buttons
+        setDisable(true);
         const colorChanges = selectionSort(state.array);
 
         //Loop through the colorChanges array
@@ -177,11 +198,15 @@ export default function Navigation({
                }, i * state.speedSlider);
            }
        }
+       setTimeout(() => {
+        setDisable(false);
+    }, colorChanges.length * state.speedSlider);
     };
 
     //Function that displays the insertion animations in insertion sort
     function insertion(){
-        
+        //Disable buttons
+        setDisable(true);
         const colorChanges = insertionSort(state.array);
 
         //Loop through the colorChanges array
@@ -213,6 +238,9 @@ export default function Navigation({
                }, i * state.speedSlider);
            }
        }
+       setTimeout(() => {
+        setDisable(false);
+    }, colorChanges.length * state.speedSlider);
     };
 
     return (
@@ -221,22 +249,22 @@ export default function Navigation({
             <div className ="nav-sliders">
                 <div className="size">
                     <h4>Array Size</h4>
-                    <input type="range" min="50" max="100" value={state.sizeSlider} step="5" className="size-slider" onChange={(e) => sizeChange(e)}/>
+                    <input disabled={disable} type="range" min="50" max="100" value={state.sizeSlider} step="5" className="size-slider" onChange={(e) => sizeChange(e)}/>
                 </div>
                 <div className="speed">
                     <h4>Sorting Speed</h4>
-                    <input type="range" min="1" max="51" value={state.speedSlider} step ="5" className="speed-slider" onChange={(e) => speedChange(e)}/>
+                    <input disabled={disable} type="range" min="1" max="51" value={state.speedSlider} step ="5" className="speed-slider" onChange={(e) => speedChange(e)}/>
                 </div>
             </div>
             <div className="nav-reset">
-                <button onClick={()=> reset()}>Generate New Array</button>
+                <button disabled={disable} onClick={()=> reset()}>Generate New Array</button>
             </div>
             <div className="nav-sortStyle">
-                <button onClick={()=> merge()}>Merge Sort</button>
-                <button onClick={()=> bubble()}>Bubble Sort</button>
-                <button onClick={()=> heap()}>Heap Sort</button>
-                <button onClick={()=> selection()}>Selection Sort</button>
-                <button onClick={()=> insertion()}>Insertion Sort</button>
+                <button disabled={disable} onClick={()=> merge()}>Merge Sort</button>
+                <button disabled={disable} onClick={()=> bubble()}>Bubble Sort</button>
+                <button disabled={disable} onClick={()=> heap()}>Heap Sort</button>
+                <button disabled={disable} onClick={()=> selection()}>Selection Sort</button>
+                <button disabled={disable} onClick={()=> insertion()}>Insertion Sort</button>
             </div>
         </nav>
     )

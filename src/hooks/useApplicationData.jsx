@@ -7,8 +7,7 @@ export default function useApplicationData(){
     const [state, setState] = useState({
         array: [],
         sizeSlider: 50,
-        speedSlider: 1,
-        clicked: false
+        speedSlider: 1
     });
 
     //function that generates a new array with randomized numbers
@@ -20,7 +19,6 @@ export default function useApplicationData(){
         setState(prev => ({
             ...prev,
             array: array,
-            clicked: false
         }));
     };
 
@@ -28,6 +26,7 @@ export default function useApplicationData(){
     useEffect(() => {
         resetArray();
     }, []);
+
 
 //Driver or main function that runs the merge sort algorithm
 function mergeSort(arr){
